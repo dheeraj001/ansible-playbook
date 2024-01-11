@@ -9,4 +9,5 @@
       owner: root
       group: root
       state: link 
+    when: ansible_distribution_major_version == "7"
     become: yes
