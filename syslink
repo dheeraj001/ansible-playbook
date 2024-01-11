@@ -1,0 +1,12 @@
+--- 
+- name: Create syslink
+  hosts: all
+  tasks: 
+  - name: create  sysslink
+    file: 
+      src: /tmp/test
+      dest: /usr/bin/syslink
+      owner: root
+      group: root
+      state: link 
+    become: yes
