@@ -1,0 +1,14 @@
+---
+- name: Print magic variable
+  hosts: all
+  gather_facts: true
+  tasks:
+  - name: print inventory variable
+    debug:
+      var: inventory_hostname
+  - name: print ansible hostname
+    debug:
+      var: ansible_hostname
+  - name: print ansible fqdn
+    debug:
+      var: ansible_fqdn        

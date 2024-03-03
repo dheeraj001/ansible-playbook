@@ -1,0 +1,17 @@
+---
+- name: Print th patter
+  gather_facts: false
+  hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+  - name: finding the patter
+    find:
+      path: /home/dheeraj
+      patterns: "dheeraj(?<=j).*?(?=9){{ mq.user }}(?<=0).*?(?=r)rpm"
+      use_regex: True
+    register: x  
+  - debug:
+      msg: "{{ x }}"    
+  # - debug:
+  #     msg: "{{ x.files.path }}"   

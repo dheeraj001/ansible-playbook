@@ -1,0 +1,23 @@
+---
+- name: Lists
+  hosts: all
+  gather_facts: no
+  tasks:
+  - name: check the dir exist
+    stat:
+      path: /home/dheeraj/test
+    register: value  
+  - block:
+     - name: Copy a  directory 
+       command: mv /home/dheeraj/test /home/dheeraj/test1
+     - name: Create a dir
+       file: 
+         path: /home/dheeraj/test4
+         state: directory   
+         owner: ravi
+         group: ravi
+         mode: '0644' 
+       become: true   
+    when: value.stat.exists and value.stat.isdir    
+  
+   

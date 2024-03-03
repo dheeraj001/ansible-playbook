@@ -1,0 +1,14 @@
+---
+- name: checking value test
+  hosts: all
+  gather_facts: no
+  vars_files:
+    - api_key.yml
+  tasks:
+  - name: Echo the api key enject into system
+    shell: uptime
+    environment: 
+      APIKEY: "{{ myapp_key_api  }}}"
+    register: echo_result
+  - name: show the result    
+    debug: var=echo_result.stdout

@@ -1,0 +1,29 @@
+---
+- name: Ansible concept
+  hosts: all
+  gather_facts: false
+  vars:
+    myvar: "Hi devops engineer"
+    myvar1: "I will become devops engineer"
+    mybool: true
+    mycities:
+      - Delhi
+      - Mumbai
+  tasks: 
+    - name: Print variable  
+      debug: 
+        var: myvar 
+    - name: using msg in debug.
+      debug:    
+        msg: 
+        -  " value {{ myvar1 }}"
+        - " aim {{ myvar }}"
+          
+    - name: checck condition
+      debug: 
+        msg: " Do hard core pratice"
+      when: mybool
+    - name: print cities        
+      debug: 
+        msg: "{{ item }}"
+      loop: "{{ mycities }}"  

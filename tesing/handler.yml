@@ -1,0 +1,52 @@
+---
+- name: Install Apache.
+  hosts: 192.168.1.11
+  become: true
+  gather_facts: true
+  tasks:
+  # - name: Add and enviroment variable to the remote user
+  #   lineinfile:
+  #     dest: "~/.bash_profile"
+  #     regexp: '^ENV_VAR='
+  #     line: 'ENV_VAR=value'
+  #   become: false    
+  # - name: Get the enviroment variable
+  #   shell: 'source ~/.bash_profile && echo $ENV_VAR'
+  #   become_user: dheeraj
+  #   register: foo
+
+  # - debug:
+  #     msg: "{{ foo.stdout }}"       
+  pre_tasks:
+  - name: Load variable files.
+    include_vars: "{{ item  }}"
+    loop:
+    - "apache_{{ ansible_os_family }}.yml"
+    - "apache_default.yml"
+  - name: Ensure apache is Install
+    yum:
+      name: "{{ apache_package }}"
+      state: present 
+
+
+  - name: copy the file 
+    copy: 
+      src: "{{ path }}"
+      dest: /tmp
+    notify: restart httpd    
+  # - name: ensure handler run immdetaily 
+  #   meta: flush_handlers  
+  - name: Ensure apache is running and started at boot
+    service:
+      name: "{{ apache_service }}" 
+      state: started 
+      enabled: true    
+  # - fail:     
+
+  handlers:
+  - name: restart httpd
+    service:
+      name: "{{ apache_service }}"
+      state: restarted    
+
+  

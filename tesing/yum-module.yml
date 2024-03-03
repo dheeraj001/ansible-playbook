@@ -1,0 +1,10 @@
+---
+- name: yum demo
+  hosts: all
+  gather_facts: no
+  become: true
+  tasks:
+  - name: install wget 
+    yum: 
+      name: wget-1.14-18.el7_6.1.x86_64
+      state: present

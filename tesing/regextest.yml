@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Set text variable
+      set_fact:
+        text: "''mbbjwwg''"
+
+
+    - name: Remove quotes from output and extract string
+      set_fact:
+        msg_without_quotes: "{{ text |  replace(\"'\",'') }}"
+
+    - debug:
+        msg: "{{ msg_without_quotes }}"
