@@ -1,0 +1,7 @@
+---
+- name: For Checking Server Availabilty
+  hosts: all
+  become: yes 
+  tasks:
+  - name: checking the server 
+    ping:
