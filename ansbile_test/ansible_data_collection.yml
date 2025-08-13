@@ -1,0 +1,26 @@
+---
+- name: Testing Data Collection in ansible
+  hosts: all 
+  become: yes 
+  vars:
+    xyz: "This is used to single value"
+    packages: ['vim', 'git','wget']
+    cities:
+    - Delhi
+    - Mumbai
+    - chennai
+    version: {'linux': 'httpd', 'unix': 'apache'}
+  tasks:
+  - name: Print normal vaiable
+    debug:
+      var: xyz 
+  - name: Print normal vaiable
+    debug:
+      var: packages
+  - name: Print normal vaiable
+    debug:
+      var: cities    
+      
+  - name: Print normal vaiable
+    debug:
+      var: version               

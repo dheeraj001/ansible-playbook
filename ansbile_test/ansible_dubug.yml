@@ -1,0 +1,26 @@
+---
+- name: Testing Debug moudel
+  hosts: all
+  become: yes
+  tasks:
+  - name: Debug using single statement
+    debug:
+      msg: "This is single statement"
+
+  - name: Priting Multiple statement
+    debug:
+      msg: 
+      - "This is Multiple line commnet"
+      - "Testing all ok"    
+
+  - name: Priting vaiable 
+    debug:
+      msg: "The ansible inventory {{ inventory_hostname }}"    
+
+  - name: Print using var 
+    debug: 
+      var: inventory_hostname    
+
+  - name: Print with double collent
+    debug: 
+      var: "{{ inventory_hostname }}"    
