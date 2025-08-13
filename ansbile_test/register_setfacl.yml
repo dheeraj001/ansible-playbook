@@ -1,0 +1,22 @@
+---
+- name: Ansible register and setfacl 
+  hosts: all 
+  become: yes 
+  tasks:
+  - name: Get the shell version 
+    shell: "bash --version"
+    register: bash_ver 
+
+  - name: Print bash version 
+    debug:
+      var: bash_ver.stdout_lines[0].split()[3].split('(')[0]  
+
+  - name: Store bash verion in variable for future use 
+    set_fact:
+      bash_version: "{{ bash_ver.stdout_lines[0].split()[3].split('(')[0] }}"
+
+  - name: print bash version using setfacl
+    debug:
+      var: bash_version        
+   
+      

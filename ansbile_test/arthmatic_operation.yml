@@ -1,0 +1,15 @@
+---
+- name: Arthmatic Operation in Ansible
+  hosts: all 
+  become: yes 
+  vars:
+    a: 10
+    b: 5
+  tasks:
+  - name: Print Arthmatic Operation
+    debug:
+      msg:
+      - " Addition of and b : {{ a+b  }} "
+      - " Subtration of and b : {{ a-b }} "
+      - " Mutltiplication of a and b : {{ a*b }}"
+      - " Division of a and b: {{ a/b }}"
