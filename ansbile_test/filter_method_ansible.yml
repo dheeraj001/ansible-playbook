@@ -1,0 +1,18 @@
+---
+- name: Filter and Method in ansible 
+  hosts: all 
+  become: yes 
+  vars: 
+    a: this Is dheeRaj Negi
+    b: 20
+    c: "10"
+  tasks:
+  - name: Print variable using filter and Method
+    debug:
+      msg:
+      - " value of a : {{ a }}"
+      - "Addition of b and c : {{ b + c|int }}"
+      - " lower case of a : {{ a|lower }}"
+      - " upeer case of a: {{ a|upper }}"
+      - " Spilt of a : {{ a.split() }}"
+      - " TiTle of a : {{ a|title }}"
