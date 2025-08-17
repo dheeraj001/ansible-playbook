@@ -1,0 +1,10 @@
+---
+- name: Demonstration b/w Ansible Hostname vs Inventory Hostname
+  hosts: all 
+  become: yes 
+  tasks:
+  - name: Display Different 
+    debug:
+      msg: 
+      - "{{ inventory_hostname }}"
+      - "{{ ansible_hostname }}"

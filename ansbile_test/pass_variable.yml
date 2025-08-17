@@ -1,0 +1,11 @@
+---
+- name: Pass Variable to Playbook via command line 
+  hosts: all 
+  become: yes 
+  vars: 
+    var1: vaule_1
+    var2: vaule_2
+  tasks:
+  - name: Print Value 
+    debug:
+      msg: "var1={{ var1}} var2={{var2}}"  
