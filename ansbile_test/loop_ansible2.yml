@@ -1,0 +1,31 @@
+---
+- name: Loop in ansible playbook part 2 
+  hosts: all 
+  become: yes 
+  vars:
+    alpha: ['a','b','c','d','e']
+    numbers: ['1','2','3','4','5']
+  tasks:
+  - name: Random Lopping Example
+    debug:
+      msg: "{{ item }}"
+    with_random_choice: 
+      - "go through the door"
+      - "drink form the goblet"
+      - "press the red button" 
+      - "do nothing"   
+
+  - name: looping over the list
+    debug:
+      msg: "At Array postion {{ item.0}} the value is {{ item.1}} " 
+    with_indexed_items:
+      - "{{ alpha }}"
+
+  - name: Ensure apache is running 
+    service:
+       name: httpd
+       state: started
+    register: result
+    until: result.changed == True
+    retries: 6
+    delay: 4       

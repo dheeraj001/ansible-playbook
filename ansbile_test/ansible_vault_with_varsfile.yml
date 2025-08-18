@@ -1,0 +1,11 @@
+---
+- name: Access Encypted variable in the ansible 
+  hosts: all 
+  become: yes 
+  vars_files: 
+  - secrets.yml
+  tasks: 
+  - name: Get the db user and password 
+    debug:
+      msg: "DB User Name {{ db_username }} and DB Password {{ db_password }}"
+    no_log: true  

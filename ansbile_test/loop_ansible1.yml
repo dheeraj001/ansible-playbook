@@ -1,0 +1,31 @@
+---
+ - name: Loops in ansible part I 
+   hosts: all
+   become: yes
+   vars:
+    alpha: ['a','b','c','d','e']
+    numbers: ['1','2','3','4','5']
+   tasks:
+   - name: Add several user in one go 
+     user: 
+       name: "{{ item }}"
+       state: present 
+       groups: "games"
+     loop:
+       - testuser1
+       - testuser2
+       - testuser3
+
+   - name: Add Server user using map 
+     user:
+       name: "{{ item.name }}"
+       state: present
+       groups: "{{ item.group }}"
+     loop:
+     - {name: 'testuser4', group: 'nobody' }
+     - {name: 'testuser5', group: 'root' }         
+
+   - name: loop over collect variable 
+     debug:
+       msg: "{{ item.0 }} and {{ item.1 }}"
+     loop: "{{ alpha | zip(numbers) | list}}"
