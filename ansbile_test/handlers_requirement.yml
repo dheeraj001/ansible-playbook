@@ -1,0 +1,16 @@
+---
+- name: Intalling Webserver
+  hosts: all 
+  become: true 
+  tasks:
+  - name: Install httpd on linux box 
+    yum: 
+     name: httpd 
+     state: present
+    register: httpd_install_status
+
+  - name: Start httpd on linux once httpd install 
+    service: 
+       name: httpd 
+       state: started 
+    when: httpd_install_status == True          
