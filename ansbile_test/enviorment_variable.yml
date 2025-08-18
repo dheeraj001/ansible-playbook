@@ -1,0 +1,73 @@
+---
+- name: Demonstration various use cases of Enviorment variable in Ansible
+  hosts: all
+  environment:
+     PLay_LEVEL_VAR: "This is a play-level environment variable"
+
+  tasks:
+    - name: print the statement without environment variable
+      debug:
+        msg: "This is statement without any environment variable"
+    
+    - name: Get system environment variable
+      command: env 
+      register: system_env 
+    
+    - name: Print system environment variables 
+      debug:
+        msg: "{{ system_env.stdout }}"
+
+    - name: GET play-level environment variable 
+      shell: " env | grep PLay_LEVEL_VAR" 
+      register: play_level_env
+
+    - name: Print play-level environemnt variable 
+      debug:
+        msg: "{{ play_level_env.stdout }}" 
+
+    - name: set and get task-level environemnt variable
+      shell: " env | grep Task_Level_Var" 
+      environment:
+         Task_Level_Var: "This is a task-level environemnt"
+      register: task_level_var 
+
+    - name: Print task-level environemnt variable
+      debug: 
+        msg: "{{ task_level_var.stdout }}"
+
+    - name: Override play-level environemnt variable at task level
+      shell: "env | grep PLay_LEVEL_VAR"
+      environment:
+         PLay_LEVEL_VAR: "This is play level environemnt variable has been Override at task level"
+      register: override_play_level_env
+
+    - name: Print overridden play-level environment variable
+      debug:
+        msg: "{{ override_play_level_env.stdout }}"
+
+    - name: Combine system and custome variable 
+      shell: " echo \"HOME=$HOME, CUSTOME_VAR=$CUSTOME_VAR\"" 
+      args:
+        chdir: /tmp 
+      environment: 
+        CUSTOME_VAR: "This is a custome variable combine with system variable"
+      register: combine_env 
+
+    - name: Print Combine environment variable
+      debug: 
+        msg: "{{ combine_env }}"
+
+    - name: Use environment variable in shell command 
+      shell: "echo \"This value of SHELL_COMMNAND_VAR is $SHELL_COMMNAND_VAR\""
+      environment:
+        SHELL_COMMNAND_VAR: "value set for shell command"
+      register: shell_command_env
+
+    - name: Print shell command environment variable
+      debug:
+        msg: "{{ shell_command_env}}"        
+
+                                   
+
+
+  

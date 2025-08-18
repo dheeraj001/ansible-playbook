@@ -1,0 +1,13 @@
+---
+- name: Test \ in in echo command
+  hosts: all 
+  tasks:
+    - name: Use environment variable in shell command 
+      shell: "echo This value of SHELL_COMMNAND_VAR is $SHELL_COMMNAND_VAR"
+      environment:
+        SHELL_COMMNAND_VAR: "value set for shell command"
+      register: shell_command_env
+
+    - name: Print shell command environment variable
+      debug:
+        msg: "{{ shell_command_env.stdout }}"     

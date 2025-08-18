@@ -1,0 +1,28 @@
+---
+- name: Running Ansible on ansible controller or localhost
+  hosts: localhost
+  tasks:
+  - name: Run command on local host 
+    command: echo "Running on local host"
+  tags: scenario1
+
+- name: Running on localhost using delegate to 
+  hosts: all 
+  tasks: 
+  - name: running command on remote hosts 
+    command: echo "Running on Remote host"
+  - name: running on local hosts 
+    command: echo "running in local hosts"
+    delegate_to: localhost
+  tags: scenario2
+
+- name: Running on localhost using local_action 
+  hosts: all 
+  tasks: 
+  - name: run commmand on remote hosts 
+    command: echo "running on remote hosts" 
+
+  - name: run command on the local hosts 
+    command: echo "running on local hosts"
+    local_action: true
+  tags: scenario3    
