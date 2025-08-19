@@ -1,0 +1,42 @@
+---
+- name: Manage line in test file 
+  hosts: localhost 
+  become: yes 
+  tasks:
+  - name: Ensure file exist
+    file:
+      path: sample.conf
+      state: touch
+
+  - name: Add the line if it does't exist
+    lineinfile:
+       path: sample.conf
+       line: 'timeout 40'
+       insertafter: '^port'
+       state: present 
+
+  - name: Replace a line if it exist
+    lineinfile:
+        path: sample.conf
+        regexp: '^ssl_enabled'
+        line: 'ssl_enabled false'
+
+  - name: Add the line in the begining of file 
+    lineinfile:
+      path: sample.conf
+      line: '# This is comment'
+      insertbefore: BOF 
+
+  - name: Read the file content
+    command: cat sample.conf 
+    register: file_content
+
+  - name: Print file content
+    debug:
+      msg: "{{ file_content.stdout }}" 
+
+  - name: Remove a line if exist
+    lineinfile:
+      path: sample.conf
+      regexp: '^server_name.*'
+      state: absent     
