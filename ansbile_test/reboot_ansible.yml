@@ -1,0 +1,10 @@
+---
+- name: Reboot in ansible 
+  hosts: all
+  become: yes 
+  tasks:
+  - name: Rebooting centos server 
+    reboot:
+      msg: "Reboot initiated by ansible"
+      reboot_timeout: 0
+      post_reboot_delay: 30

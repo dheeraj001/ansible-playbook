@@ -1,0 +1,35 @@
+---
+- name: Mange Nginx Configration File 
+  hosts: localhost
+  tasks:
+  - name: name a new block after the marker
+    blockinfile:
+      path: nginx.conf
+      marker: "# START OF NEW BLOCK"
+      block: |
+        # New block of text 
+        server {
+          listen 80;
+          server_name _;
+          return 301 https://$host$request_uri;
+        }
+      insertafter: '# START OF NEW BLOCK'  
+    register: block_result
+
+  - name: print the blockinfile result 
+    debug: 
+      var: block_result
+
+  # - name: Replace a block of text between marker
+  #   blockinfile:
+  #     path: nginx.conf
+  #     marker: "# START OF NEW BLOCK"
+  #     block: |
+  #       # Update block of text
+  #       server {
+  #         listen 90;
+  #         server_name _;
+  #         return 301 https://$host$request_uri;
+  #       }
+         
+
