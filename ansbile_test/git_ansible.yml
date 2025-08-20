@@ -1,0 +1,21 @@
+---
+- name: Clone the Github Repository and perform tasks
+  hosts: all 
+  become: yes 
+  tasks:
+  - name: Clone github Repository
+    git:
+      repo: https://github.com/dheeraj001/ansible-playbook.git
+      dest: /tmp/ansible-example
+      update: yes 
+      version: master
+
+  - name: Print the content of Repository
+    command: cat /tmp/ansible-example/README.md
+    register: readme_content
+
+  - name: Display content
+    debug:
+      msg: "{{ readme_content.stdout }}"       
+
+

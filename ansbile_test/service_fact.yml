@@ -1,0 +1,67 @@
+---
+# - name: Install and manage nginx and apache 
+#   hosts: all 
+#   become: yes 
+#   tasks:
+#   - name: Update the apt package index 
+#     apt: 
+#       update_cache: yes 
+
+#   - name: Install nginx 
+#     apt:
+#       name: nginx 
+#       state: present 
+
+#   - name: Install apache 
+#     apt: 
+#       name: apache2
+#       state: present
+
+#   - name: start and enable nginx service 
+#     service:
+#       name: nginx 
+#       state: started 
+#       enabled: yes 
+
+- name: Gather and use service facts 
+  hosts: all
+  tasks:
+  - name: Gather service facts
+    service_facts:
+
+  # - name: Print all service facts 
+  #   debug:
+  #     var: ansible_facts.services 
+
+  - name: Print all running service
+    debug:
+      msg: " Hi "
+    when: ansible_facts.services['*'].state == 'running'     
+
+
+
+- name: Print all running services
+  debug:
+    var: item
+  loop: "{{ ansible_facts.services | dict2items | selectattr('value.state', 'eq', 'running') | list }}"
+    
+
+  # - name: Ensure Nginx service is running 
+  #   service:
+  #     name: nginx 
+  #     state: started             
+  #   when: ansible_facts.services['nginx'].state != 'running'
+
+  # - name: Ensure apache service is stopped 
+  #   service:
+  #     name: apache2
+  #     start: stopped
+  #   when: ansible_facts.services['apache2'].state != 'stopped'
+
+  # - name: Print the status of Nginx service
+  #   debug:
+  #     msg: "{{ ansible_facts.services['nginx'].state }}"      
+
+  # - name: Print status of apache service
+  #   debug:
+  #     msg: "{{ ansible_facts.services['apache2'].state }}"    
