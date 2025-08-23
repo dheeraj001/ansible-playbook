@@ -1,0 +1,22 @@
+---
+- name: schdule a weekly log cleanup
+  hosts: all 
+  become: yes 
+  tasks:
+  - name:  copy backup script to remote server 
+    copy: 
+      src: check_log.sh 
+      dest: /tmp/check_log.sh 
+      mode: '0755'
+
+  - name: schedule a weekly log cleanup
+    cron: 
+      name: "Weekly log cleanup"
+      minute: "30"
+      hour: "3"
+      day: "*"
+      month: "*"
+      weekday: "1"
+      job: "/tmp/check_log.sh" 
+      user: "root"   
+      

@@ -1,0 +1,19 @@
+---
+- name: fetch configration file using slurp module
+  hosts: all 
+  tasks:
+  - name: fetch nginx configration
+    slurp:
+      src: /tmp/nginx.conf 
+    register: nginx_conf
+
+  - name: Display the content 
+    debug:
+      msg: " fetch content: {{ nginx_conf.content | b64decode }}"
+
+  - name: Save the content to local file 
+    copy:
+      content: "{{ nginx_conf.content | b64decode }}"
+      dest: /tmp/nginx_bak.conf      
+
+     

@@ -1,0 +1,15 @@
+---
+- name: Install and configure nginx with dynamic server name 
+  hosts: all 
+  become: yes 
+  vars:
+   nginx_servers:
+     - { server_name: "{{ ansible_hostname}}", port: 80, proxy_pass: 'backend1' }
+     - { server_name: "{{ ansible_hostname }}", port: 90,proxy_pass: 'backend2' }
+  tasks: 
+  - name: copy nginx configure
+    template:
+       src: nginx.conf.j2
+       dest: /tmp/nginx.conf 
+
+  
