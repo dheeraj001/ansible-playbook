@@ -1,0 +1,18 @@
+physicalVolumes:
+  data:
+    pvs: /dev/sdb
+    vg: mqmdata
+  # data1:
+  #   pvs: /dev/sdc
+  #   vg: mqmdata
+logicalVolumes:
+    mqm:
+     vg: mqmdata
+     lv: datalv
+     size: "+100%FREE"
+     fstype: ext4
+     dev: /dev/mqmdata/datalv
+     path: "/data"
+     owner: dheeraj 
+     group: dheeraj 
+     mode: "u=rwx,g=rwx,o=rwx"    

@@ -1,0 +1,16 @@
+---
+- name: Display nproc value 
+  hosts: all 
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - name: Display variable 
+    debug: 
+      msg: 
+      - "{{ item[1]['domain'] }}"
+      - "{{ item[1]['limit_item'] }}"
+      - "{{ item[1]['limit_type'] }}" 
+      - "{{ item[1]['value'] }}"
+    loop: "{{ ulimit|dictsort }}"
+    when: ulimit is defined  

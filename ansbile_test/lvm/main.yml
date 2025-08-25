@@ -1,0 +1,9 @@
+---
+- name: For Filesystem Ceration 
+  hosts: all
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - name: LVM Creation 
+    include_tasks: lvm.yml

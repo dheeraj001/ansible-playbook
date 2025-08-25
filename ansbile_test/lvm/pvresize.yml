@@ -1,0 +1,12 @@
+- name: Check to see if we need to resize 
+  command: /sbin/pvresize -tv "{{ item[1]['pvs'] }}"
+  register: resizeOutput
+  changed_when: false 
+
+- name: check the resizeOutput
+  debug: 
+    var: resizeOutput
+
+- name: check to see if we need to resize 
+  command: /sbin.pvresize "{{ item[1]['pvs']}}"
+  when: resizeOutput.stdout.find("Resizing physical Volume") != -1

@@ -1,0 +1,57 @@
+- name: Ensure Physical Volumes exist
+  lvg: 
+    vg: "{{ item[1]['vg'] }}"
+    pvs: "{{ item[1]['pvs'] }}"
+  loop: "{{ physicalVolumes|dictsort }}"  
+
+- name: Ensure Physical Volume is extended
+  include_tasks: pvresize.yml 
+  loop: "{{ physicalVolumes|dictsort }}"
+
+- name: Ensure logical Volumes exist 
+  lvol: 
+    vg: "{{ item[1]['vg'] }}"
+    lv: "{{ item[1]['lv'] }}"
+    size: "{{ item[1]['size']}}"
+  loop: "{{ logicalVolumes|dictsort }}"  
+
+- name: Ensure file system exist 
+  filesystem:
+    fstype: "{{ item[1]['fstype'] }}"
+    dev: "{{ item[1]['dev'] }}"
+    opts: "{{ item[1]['FSopts']| default('') }}"
+    resizefs: no
+  loop: "{{ logicalVolumes|dictsort }}"  
+
+- name: Ensure mount point exist 
+  file:
+    path: "{{ item[1]['path'] }}"
+    state: directory
+  loop: "{{ logicalVolumes|dictsort }}"    
+
+- name: Ensure mount points 
+  mount:
+    path: "{{ item[1]['path'] }}"
+    src: "{{ item[1]['dev'] }}"
+    fstype: "{{ item[1]['fstype']|default('ext4') }}"
+    opts: "{{ item[1]['MNTopts']|default('defaults') }}"
+    state: "{{ item[1]['state']|default('mounted') }}"
+    backup: yes 
+  loop: "{{ logicalVolumes|dictsort }}"    
+
+- name: Ensure mount path exist with curret premission 
+  file:
+    path: "{{ item[1]['path']}}"
+    state: directory
+    owner: "{{ item[1]['owner'] }}"
+    group: "{{ item[1]['group'] }}"
+    mode: "{{ item[1]['mode'] }}"
+  loop: "{{ logicalVolumes|dictsort }}"    
+
+- name: Resize filesystem into underlying space 
+  filesystem:
+     fstype: "{{ item[1]['fstype'] }}"
+     dev: "{{ item[1]['dev'] }}"
+     opts: "{{ item[1]['FSopts']|default('') }}"
+     resizefs: yes 
+  loop: "{{ logicalVolumes|dictsort }}"   
