@@ -1,0 +1,12 @@
+logRotate: 
+  IIBsyslog: 
+    files:
+      - /var/log/ACE.log 
+    options:
+      - create 0644 dheeraj dheeraj 
+      - copytruncate 
+      - compress 
+      - notifempty
+      - missingok 
+      - daily 
+      - "rotate 5"  

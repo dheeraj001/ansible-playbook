@@ -1,0 +1,24 @@
+---
+- name: Configure log rotate in ansible 
+  hosts: all 
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - name: copy in custom logrotate files 
+    copy:
+      content: |
+        {% for file in logRotate[rotatefile]['files'] %}{{ file }}{% endfor %}{
+        {% for options in logRotate[rotatefile]['options']  %}
+        {{ options }}
+        {% endfor -%} 
+        }
+      dest: "/etc/logrotate.d/{{ rotatefile }}"
+      owner: root 
+      group: root 
+      mode: "u=rw,g=r,o=r"
+    loop: "{{ logRotate.keys()|list|sort }}" 
+    loop_control:
+        loop_var: rotatefile
+    when: logRotate is defined     
+
