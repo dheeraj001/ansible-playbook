@@ -1,0 +1,13 @@
+---
+- name: Configure sssh 
+  hosts: all 
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - name: copy sshd file 
+    template: 
+      src: sshd_Config.j2
+      dest: /tmp/sshd_config
+      owner: root 
+      group: root 

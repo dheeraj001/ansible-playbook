@@ -1,0 +1,12 @@
+---
+- name: Configure sssh 
+  hosts: all 
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - name: copy sshd file 
+    copy:
+      content: "{{ item.value }}\n"
+      dest: "/tmp/{{ item.key }}"
+    with_dict: "{{ sudo_files }}"  

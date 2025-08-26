@@ -1,0 +1,7 @@
+sudo_files:
+    IIBCommands: |
+       release  All=(All) NOPASSWD:All 
+    IIBReleaseTeam: |
+       %Role-G-release
+    IIBApplication: |
+       %rOLE-a-DSICO          

@@ -1,0 +1,1 @@
+AllowGroups ansible-rmt {% for key in ssh_allowgroups %} {{ ssh_allowgroups[key] }} {% endfor %}
