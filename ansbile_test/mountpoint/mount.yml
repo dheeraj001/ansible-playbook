@@ -1,0 +1,35 @@
+- debug:
+    msg: "{{ item[1]['path'] }}"
+
+- name: Check if filesystem is mounted 
+  stat:
+    path: "{{ item[1]['path'] }}"
+  register: mountpoint 
+
+- name: debug 
+  debug:
+    msg: "{{ mountpoint }}"
+
+- name: Ensure the mountpoint directory exist 
+  file:
+    path: "{{ item[1]['path'] }}"
+    state: directory
+    mode: "u=rwx,g=,o="
+  when: not mountpoint.stat.exists  
+
+- name: Create credentials file 
+  copy: 
+    content: |
+       username: {{ item[1]['credentialsUsername'] }}
+       password: {{ item[1]['credentialsPassword'] }}
+       {% if item[1]['credentialsDomain'] is defined %}
+       domain= item[1]['credentialsDomain']
+       {% endif %}
+    dest: "{{ item[1]['credentialsFilename'] }}"   
+    owner: root 
+    group: root 
+    mode: "u=rw,g=,o="
+  when:
+  - item[1]['credentialsUsername'] is defined
+  - item[1]['credentialsPassword'] is defined
+  - item[1]['credentialsFilename'] is defined  

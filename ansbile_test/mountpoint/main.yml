@@ -1,0 +1,10 @@
+---
+- name: Configure log rotate in ansible 
+  hosts: all 
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - name: Mount Filesystem 
+    include_tasks: mount.yml 
+    loop: "{{ mount_points|dictsort }}"
