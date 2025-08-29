@@ -21,3 +21,9 @@
       - " Addition of x and y is : {{ x|int + y|int }} "
       - " Mutltiplication of x and y is : {{ x|int * y|int }}"
       - " Division of x and y is : {{ x|int / y|int }}"
+
+
+
+- set_fact:
+         x: "{{ x|default[] + [ item.path ] }}"
+  loop: "{{ rpms.files }}"       

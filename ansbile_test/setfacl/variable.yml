@@ -1,0 +1,4 @@
+rpms:
+  files:
+  - path: /tmp/a.rpm 
+  - path: /tmp/b.rpm

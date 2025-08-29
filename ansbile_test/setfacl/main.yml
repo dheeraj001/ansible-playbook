@@ -1,0 +1,17 @@
+---
+- name: For Filesystem Ceration 
+  hosts: all
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - set_fact:
+           x: "{{ x|default([]) + [ item.path ] }}"
+    loop: "{{ rpms.files }}"
+
+  # - debug:
+  #     msg: "{{ item.path }}"
+  #   loop: "{{ rpms.files }}"   
+      
+  - debug:
+       var: x   
