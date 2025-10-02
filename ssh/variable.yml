@@ -1,0 +1,7 @@
+ssh_keys:
+   t24user:
+      user: dheeraj
+      remoteHosts:
+          clienta:
+             hostname: abc 
+             user: dheeraj    

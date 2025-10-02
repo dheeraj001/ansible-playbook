@@ -1,0 +1,13 @@
+---
+- name: For Password authentication
+  hosts: all
+  become: yes 
+  vars_files:
+  - variable.yml
+  tasks:
+  - name: Ensure ssh keys are present 
+    include_tasks: localkeys.yml 
+    loop: "{{ ssh_keys.keys()|list|sort }}"
+    loop_control:
+        loop_var: user 
+    when: ssh_keys is defined     

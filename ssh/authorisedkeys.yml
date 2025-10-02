@@ -1,0 +1,11 @@
+- debug:
+   msg: "{{ ssh_keys[user]['remoteHosts'][hostname]['hostname'] }}"
+
+- name: Ensure thay the authorised key is on remote host 
+  authorized_key:
+        user: "{{ ssh_keys[user]['remoteHosts'][hostname]['user'] }}"
+        state: present
+        keys: "{{ ssh_keys_create['pub'lic_key'] }}"
+  delegate_to: "{{ ssh_keys[user]['remoteHosts'][hostname]['hostname'] }}"     
+
+- name:    

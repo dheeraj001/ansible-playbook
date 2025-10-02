@@ -1,0 +1,29 @@
+- name: Ensure .ssh directory exist
+  file:
+    path: "~/.ssh"
+    state: directory
+    owner: "{{ ssh_keys[user]['user'] }}"
+    mode: "u=rwx.g=o,o="
+  become_user: "{{ ssh_keys[user]['user'] }}"
+
+- name: Ensure ssh key is present on host 
+  openssh_keypair:
+    comment: "Ansible generate key pair"
+    type: "{{ ssh_keys[user]['type']|default('rsa') }}"
+    size: "{{ ssh_keys[user]['size']|default('2048') }}"
+    path: "{{ ssh_keys[user]['path']|default('~/.ssh/id_rsa') }}"
+  become_user: "{{ ssh_keys[user]['user'] }}"
+  register: ssh_keys_create
+
+- name: Ensure authorised key is present
+  authorized_keys: 
+       key: "{{ ssh_keys[user]['key']|default('') }}"
+       user: "{{ ssh_keys[user]['user'] }} "
+  become_user: "{{ ssh_keys[user]['user'] }} "
+  when: "{{ ssh_keys[user]['key'] is defined
+
+- name: Ensure ssh key is on remote host authorised key file 
+  include_tasks: authorisedkeys.yml
+  loop: "{{ ssh_keys[user]['remoteHosts]|default({})|list|sort }}"
+  loop_control: 
+      loop_var: hostname
